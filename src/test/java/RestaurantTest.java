@@ -2,11 +2,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class RestaurantTest {
     Restaurant restaurant;
+
+    List<Item> foodItems = new ArrayList<Item>();
     //REFACTOR ALL THE REPEATED LINES OF CODE
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>OPEN/CLOSED<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -19,6 +23,21 @@ class RestaurantTest {
         restaurant = new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
         restaurant.addToMenu("Sweet corn soup",119);
         restaurant.addToMenu("Vegetable lasagne", 269);
+    }
+
+    @Test
+    public void order_value_should_get_cumulative_total_when_collection_of_items_selected(){
+        foodItems = restaurant.getMenu();
+        assertEquals(388,restaurant.getOrderValue(foodItems));
+    }
+
+    @Test
+    public void order_value_should_reduce_cumulative_total_when_an_item_removed(){
+        foodItems = restaurant.getMenu();
+        int total = restaurant.getOrderValue(foodItems);
+        int afterTotal = foodItems.get(1).getPrice();
+        foodItems.remove(1);
+        assertEquals(total-afterTotal,restaurant.getOrderValue(foodItems));
     }
     @Test
     public void is_restaurant_open_should_return_true_if_time_is_between_opening_and_closing_time(){
