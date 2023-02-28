@@ -17,6 +17,13 @@ public class Restaurant {
         this.closingTime = closingTime;
     }
 
+    public int getOrderValue(List<Item> item){
+        int totalValue = 0;
+        for (Item myItem : item) {
+            totalValue += myItem.getPrice();
+        }
+        return totalValue;
+    }
     public boolean isRestaurantOpen() {
         LocalTime time = LocalTime.now();
         int notClosed = time.compareTo(closingTime);
